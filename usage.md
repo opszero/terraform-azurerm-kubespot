@@ -25,25 +25,6 @@ commonalities between them.
 brew install kubectl kubernetes-helm google-cloud-sdk terraform
 ```
 
-# Credentials
-
-
-# Network Diagram
-
-
-## Releases
-
-```sh
-TAG=v3.0.1
-gh release create $TAG --discussion-category "General"
-```
-
-# Support
-<a href="https://www.opszero.com"><img src="http://assets.opszero.com.s3.amazonaws.com/images/opszero_11_29_2016.png" width="300px"/></a>
-
-This project is by [opsZero](https://www.opszero.com). We help organizations
-migrate to Kubernetes so [reach out](https://www.opszero.com/#contact) if you
-need help!
 # Deployment
 
 ```sh
