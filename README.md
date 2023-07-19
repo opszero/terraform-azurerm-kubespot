@@ -6,7 +6,7 @@
 Compliance Oriented Kubernetes Setup for AWS, Google Cloud and Microsoft Azure.
 
 Kubespot is an open source terraform module that attempts to create a complete
-compliance-oriented Kubernetes setup on AWS, Google Cloud and Azure.  These add
+compliance-oriented Kubernetes setup on AWS, Google Cloud and Azure. These add
 additional security such as additional system logs, file system monitoring, hard
 disk encryption and access control. Further, we setup the managed Redis and SQL
 on each of the Cloud providers with limited access to the Kubernetes cluster so
@@ -25,6 +25,20 @@ commonalities between them.
 ```
 brew install kubectl kubernetes-helm google-cloud-sdk terraform
 ```
+
+# Keys
+
+How to get key for cluster creation (client id and secret)
+
+1. Sign in to Azure portal
+2. Navigate to the Azure Active Directory
+3. Select "App registrations"
+4. If there is application already use existing one or create new one as follows
+5. Click on the "New registration" button to create a new application registration
+6. select the appropriate supported account type (e.g., "Accounts in this organizational directory only")
+7. Click on the "Register" button to create the application.
+8. After application is created, Under "Certificates & secrets," click on the "New client secret" button to create a new client secret.
+9. Copy the client id and client secret and pass it to cluster creation opszero module
 
 # Deployment
 
