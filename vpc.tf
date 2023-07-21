@@ -5,7 +5,7 @@ resource "azurerm_route_table" "cluster" {
 
   route {
     name                   = "default"
-    address_prefix         = "10.100.0.0/14"
+    address_prefix         = "${var.cidr}/14"
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = "10.10.1.1"
   }
