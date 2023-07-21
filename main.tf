@@ -28,12 +28,10 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     network_plugin = "azure"
   }
 
-  role_based_access_control {
-    enabled = true
-    azure_active_directory {
-      managed                = true
-      admin_group_object_ids = var.ad_group_ids
-    }
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = true
+    managed                = true
+    admin_group_object_ids = var.ad_group_ids
   }
 
   tags = {
