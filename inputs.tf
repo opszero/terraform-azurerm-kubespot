@@ -18,6 +18,11 @@ variable "ad_group_ids" {
   default     = []
 }
 
+variable "ad_user_ids" {
+  description = "ActiveDirectory users that have access to the kubernetes admin group and attached to the cluster"
+  default     = []
+}
+
 # variable "cluster_version" {
 #   default = "1.13"
 # }
