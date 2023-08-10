@@ -48,18 +48,6 @@ terraform plan
 terraform apply -auto-approve
 ```
 
-# For Kubernetes access
-1. Make sure to create group in AD
-2. Add user to the created group
-3. Add group object id in `ad_group_ids` terraform
-
-## After cluster creation how to get kubeconfig
-```bash
-az aks get-credentials --resource-group duality-dev --name duality-dev
-az aks install-cli
-kubelogin convert-kubeconfig -l azurecli
-```
-
 # Teardown
 
 ```sh
