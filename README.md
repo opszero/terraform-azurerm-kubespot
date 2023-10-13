@@ -115,5 +115,7 @@ terraform destroy -auto-approve
 | [azurerm_virtual_network.cluster](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | n/a |
 <!-- END_TF_DOCS -->
