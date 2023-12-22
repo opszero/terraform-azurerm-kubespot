@@ -16,6 +16,9 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   resource_group_name = azurerm_resource_group.cluster.name
   dns_prefix          = "auditkube"
 
+  azure_policy_enabled                = true
+  http_application_routing_enabled    = true
+
   default_node_pool {
     name            = "nodes"
     node_count      = var.nodes_desired_capacity
