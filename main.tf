@@ -23,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     os_disk_size_gb = 30
 
     vnet_subnet_id        = azurerm_subnet.cluster.id
-    enable_node_public_ip = true # TURN it off
+    node_public_ip_enabled = true # TURN it off
   }
 
   service_principal {
@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     azure_rbac_enabled = false
     managed            = true
     admin_group_object_ids = concat(
-      coalescelist(var.ad_group_ids, []),
+      length(var.ad_group_ids) > 0 ? var.ad_group_ids : [],
       length(var.ad_user_ids) > 0 ? [azuread_group.cluster[0].object_id] : []
     )
   }
