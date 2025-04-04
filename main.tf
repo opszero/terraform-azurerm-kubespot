@@ -23,7 +23,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     os_disk_size_gb = 30
 
     vnet_subnet_id        = azurerm_subnet.cluster.id
-    node_public_ip_enabled = true # TURN it off
+    enable_node_public_ip = true # TURN it off
   }
 
   service_principal {
