@@ -41,7 +41,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     azure_rbac_enabled = false
     managed            = true
     admin_group_object_ids = concat(
-      coalescelist(var.ad_group_ids, []),
+      length(var.ad_group_ids) > 0 ? var.ad_group_ids : [],
       length(var.ad_user_ids) > 0 ? [azuread_group.cluster[0].object_id] : []
     )
   }
