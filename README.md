@@ -58,7 +58,7 @@ terraform destroy -auto-approve
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | n/a |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 2.99.0 |
 ## Inputs
 
 | Name | Description | Type | Default | Required |
