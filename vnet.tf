@@ -14,12 +14,12 @@ resource "azurerm_virtual_network" "default" {
     }
   }
 
-  dynamic "encryption" {
-    for_each = var.enforcement != null ? [true] : []
-    content {
-      enforcement = var.enforcement
-    }
-  }
+  # dynamic "encryption" {
+  #   for_each = var.enforcement != null ? [true] : []
+  #   content {
+  #     enforcement = var.enforcement
+  #   }
+  # }
 
   timeouts {
     create = var.timeouts.create
@@ -51,9 +51,9 @@ resource "azurerm_subnet" "subnet" {
   virtual_network_name                          = azurerm_virtual_network.default.name
   service_endpoints                             = var.service_endpoints
   service_endpoint_policy_ids                   = var.service_endpoint_policy_ids
-  private_link_service_network_policies_enabled = var.subnet_enforce_private_link_service_network_policies
-  private_endpoint_network_policies             = var.private_endpoint_network_policies
-  default_outbound_access_enabled               = var.default_outbound_access_enabled
+  # private_link_service_network_policies_enabled = var.subnet_enforce_private_link_service_network_policies
+  # private_endpoint_network_policies             = var.private_endpoint_network_policies
+  # default_outbound_access_enabled               = var.default_outbound_access_enabled
 
   dynamic "delegation" {
     for_each = var.delegation
@@ -108,7 +108,7 @@ resource "azurerm_route_table" "rt" {
   name                          = var.route_table_name == null ? format("%s-route-table", var.environment_name) : format("%s-%s-route-table", var.environment_name, var.route_table_name)
   location                      = var.location
   resource_group_name           =  azurerm_resource_group.default.id
-  bgp_route_propagation_enabled = var.bgp_route_propagation_enabled
+  # bgp_route_propagation_enabled = var.bgp_route_propagation_enabled
   tags                          = merge(var.default_tags, var.tags)
 
   dynamic "route" {
