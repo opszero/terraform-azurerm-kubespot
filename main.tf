@@ -1,14 +1,4 @@
-resource "azurerm_resource_group" "cluster" {
-  name     = var.environment_name
-  location = var.region
-}
 
-resource "azuread_group" "cluster" {
-  count            = length(var.ad_user_ids) > 0 ? 1 : 0
-  display_name     = "admin-group"
-  owners           = var.ad_user_ids
-  security_enabled = true
-}
 
 resource "azurerm_kubernetes_cluster" "cluster" {
   name                = var.environment_name
