@@ -24,9 +24,7 @@ locals {
     mode                  = "System"
   }
 
-  default_node_pool = merge(local.default_agent_profile, {
-    name = "agentpool"
-  })
+  default_node_pool = merge(local.default_agent_profile, { name = "agentpool" })
 
   extra_node_pools_raw = [
     {
@@ -62,14 +60,14 @@ locals {
   ]
 
   nodes_pools = [
-    for ap in local.nodes_pools_with_defaults : ap.os_type == "Linux" ? merge(local.default_linux_node_profile, ap) : merge(local.default_windows_node_profile, ap)]
+  for ap in local.nodes_pools_with_defaults : ap.os_type == "Linux" ? merge(local.default_linux_node_profile, ap) : merge(local.default_windows_node_profile, ap)]
 
   private_dns_zone = var.private_dns_zone_type == "Custom" ? var.private_dns_zone_id : var.private_dns_zone_type
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
   count                            = var.enabled ? 1 : 0
-  name                             = local.environment_name
+  name                             = "${local.environment_name}-aks"
   location                         = local.location
   resource_group_name              = local.resource_group_name
   dns_prefix                       = replace(local.environment_name, "/[\\W_]/", "-")
@@ -96,17 +94,17 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   default_node_pool {
-    name                 = local.default_node_pool.name
-    node_count           = local.default_node_pool.count
-    vm_size              = local.default_node_pool.vm_size
-    enable_auto_scaling  = local.default_node_pool.enable_auto_scaling
-    min_count            = local.default_node_pool.min_count
-    max_count            = local.default_node_pool.max_count
-    max_pods             = local.default_node_pool.max_pods
-    os_disk_type         = local.default_node_pool.os_disk_type
-    os_disk_size_gb      = local.default_node_pool.os_disk_size_gb
-    type                 = local.default_node_pool.type
-    vnet_subnet_id       = local.default_node_pool.vnet_subnet_id
+    name                = local.default_node_pool.name
+    node_count          = local.default_node_pool.count
+    vm_size             = local.default_node_pool.vm_size
+    enable_auto_scaling = local.default_node_pool.enable_auto_scaling
+    min_count           = local.default_node_pool.min_count
+    max_count           = local.default_node_pool.max_count
+    max_pods            = local.default_node_pool.max_pods
+    os_disk_type        = local.default_node_pool.os_disk_type
+    os_disk_size_gb     = local.default_node_pool.os_disk_size_gb
+    type                = local.default_node_pool.type
+    vnet_subnet_id      = local.default_node_pool.vnet_subnet_id
   }
 
   identity {
@@ -145,21 +143,21 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
 
-  count                  = length(local.nodes_pools)
-  kubernetes_cluster_id  = join("", azurerm_kubernetes_cluster.aks[*].id)
-  name                   = local.nodes_pools[count.index].name
-  vm_size                = local.nodes_pools[count.index].vm_size
-  os_type                = local.nodes_pools[count.index].os_type
-  os_disk_type           = local.nodes_pools[count.index].os_disk_type
-  os_disk_size_gb        = local.nodes_pools[count.index].os_disk_size_gb
-  vnet_subnet_id         = local.nodes_pools[count.index].vnet_subnet_id
+  count                 = length(local.nodes_pools)
+  kubernetes_cluster_id = join("", azurerm_kubernetes_cluster.aks[*].id)
+  name                  = local.nodes_pools[count.index].name
+  vm_size               = local.nodes_pools[count.index].vm_size
+  os_type               = local.nodes_pools[count.index].os_type
+  os_disk_type          = local.nodes_pools[count.index].os_disk_type
+  os_disk_size_gb       = local.nodes_pools[count.index].os_disk_size_gb
+  vnet_subnet_id        = local.nodes_pools[count.index].vnet_subnet_id
   enable_auto_scaling   = local.nodes_pools[count.index].enable_auto_scaling
-  node_count             = local.nodes_pools[count.index].count
-  min_count              = local.nodes_pools[count.index].min_count
-  max_count              = local.nodes_pools[count.index].max_count
-  max_pods               = local.nodes_pools[count.index].max_pods
+  node_count            = local.nodes_pools[count.index].count
+  min_count             = local.nodes_pools[count.index].min_count
+  max_count             = local.nodes_pools[count.index].max_count
+  max_pods              = local.nodes_pools[count.index].max_pods
   enable_node_public_ip = local.nodes_pools[count.index].enable_node_public_ip
-  mode                   = local.nodes_pools[count.index].mode
+  mode                  = local.nodes_pools[count.index].mode
 
   lifecycle {
     ignore_changes = [upgrade_settings]

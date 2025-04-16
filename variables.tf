@@ -1,6 +1,6 @@
 variable "location" {
   description = "The Azure region where the resource group will be created."
-  default = "East US"
+  default     = "East US"
   type        = string
 }
 
@@ -8,7 +8,7 @@ variable "default_tags" {
   description = "Base tags applied to all resources"
   type        = map(string)
   default = {
-    ManagedBy   = "OpsZero"
+    ManagedBy    = "OpsZero"
     Repositories = "https://github.com/opszero/terraform-azurerm-kubespot"
   }
 }
@@ -57,7 +57,7 @@ variable "timeouts" {
 
 variable "environment_name" {
   type        = string
-  default = "demo"
+  default     = "demo"
   description = "Name of the environment to create resources"
 }
 
@@ -72,7 +72,7 @@ variable "environment_name" {
 
 variable "address_spaces" {
   description = "List of address spaces for the VNet"
-  default = ["10.0.0.0/1"]
+  default     = ["10.0.0.0/1"]
   type        = list(string)
 }
 
@@ -85,7 +85,7 @@ variable "dns_servers" {
 variable "enable_ddos_pp" {
   description = "Enable creation of a new DDoS protection plan"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "existing_ddos_pp" {
@@ -157,8 +157,8 @@ variable "default_outbound_access_enabled" {
 
 # Delegation of subnet resources
 variable "delegation" {
-  type    = map(list(object({
-    name                = string
+  type = map(list(object({
+    name = string
     service_delegation = list(object({
       name    = string
       actions = list(string)
@@ -170,7 +170,7 @@ variable "delegation" {
 # Flag to create NAT Gateway
 variable "create_nat_gateway" {
   type    = bool
-  default = false
+  default = true
 }
 
 # Allocation method for the public IP
@@ -208,7 +208,7 @@ variable "zones" {
 # Flag to enable Route Table
 variable "enable_route_table" {
   type    = bool
-  default = false
+  default = true
 }
 
 # Name of the route table
@@ -219,7 +219,7 @@ variable "route_table_name" {
 
 # Routes to be added to the route table
 variable "routes" {
-  type    = list(object({
+  type = list(object({
     name                   = string
     address_prefix         = string
     next_hop_type          = string
