@@ -1,4 +1,5 @@
 resource "azurerm_resource_group" "default" {
+  count       = var.azurerm_resource_group_enabled ? 1 : 0
   name     = "${var.environment_name}-rg"
   location = var.location
   tags     = merge(var.default_tags, var.tags)
@@ -14,7 +15,7 @@ resource "azurerm_resource_group" "default" {
 resource "azurerm_management_lock" "default" {
   count      = var.resource_lock_enabled ? 1 : 0
   name       = "${var.lock_level}-rg-lock"
-  scope      = azurerm_resource_group.default.id
+  scope      = join("", azurerm_resource_group.default.*.id)
   lock_level = var.lock_level
   notes      = var.notes
 }

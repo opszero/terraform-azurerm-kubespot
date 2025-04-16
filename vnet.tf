@@ -1,7 +1,8 @@
 resource "azurerm_virtual_network" "default" {
+  count                   = var.enable == true ? 1 : 0
   name                = "${var.environment_name}-vnet"
   location            = var.location
-  resource_group_name = azurerm_resource_group.default.id
+  resource_group_name = join("", azurerm_resource_group.default[*].name)
   address_space       = var.address_spaces
   dns_servers         = var.dns_servers
   tags                = merge(var.default_tags, merge(var.default_tags, var.tags))
@@ -31,10 +32,10 @@ resource "azurerm_virtual_network" "default" {
 
 # Optional DDOS plan resource
 resource "azurerm_network_ddos_protection_plan" "main" {
-  count               = var.enable_ddos_pp && var.existing_ddos_pp == null ? 1 : 0
+  count               = var.enable_ddos_pp && var.existing_ddos_pp  == null ? 1 : 0
   name                = "${var.environment_name}-ddos-plan"
   location            = var.location
-  resource_group_name = azurerm_resource_group.default.id
+  resource_group_name = join("", azurerm_resource_group.default[*].name)
   tags                = merge(var.default_tags, merge(var.default_tags, var.tags))
 }
 
@@ -46,9 +47,9 @@ locals {
 resource "azurerm_subnet" "subnet" {
   count                       = local.subnet
   name                        = var.specific_name_subnet == false ? "${var.environment_name}-${element(var.subnet_names, count.index)}" : var.specific_subnet_names[0]
-  resource_group_name         = azurerm_resource_group.default.id
+  resource_group_name         = join("", azurerm_resource_group.default[*].name)
   address_prefixes            = [var.subnet_prefixes[count.index]]
-  virtual_network_name        = azurerm_virtual_network.default.name
+  virtual_network_name        = join("",azurerm_virtual_network.default.*.name)
   service_endpoints           = var.service_endpoints
   service_endpoint_policy_ids = var.service_endpoint_policy_ids
   # private_link_service_network_policies_enabled = var.subnet_enforce_private_link_service_network_policies
@@ -75,7 +76,7 @@ resource "azurerm_public_ip" "pip" {
   name                = format("%s-nat-gateway-ip", var.environment_name)
   allocation_method   = var.allocation_method
   location            = var.location
-  resource_group_name = azurerm_resource_group.default.id
+  resource_group_name = join("", azurerm_resource_group.default[*].name)
   sku                 = var.sku
   tags                = merge(var.default_tags, var.tags)
 }
@@ -84,7 +85,7 @@ resource "azurerm_nat_gateway" "natgw" {
   count                   = var.create_nat_gateway ? 1 : 0
   name                    = format("%s-nat-gateway", var.environment_name)
   location                = var.location
-  resource_group_name     = azurerm_resource_group.default.id
+  resource_group_name     = join("", azurerm_resource_group.default[*].name)
   sku_name                = var.sku_name
   idle_timeout_in_minutes = var.nat_gateway_idle_timeout
   zones                   = var.zones
@@ -107,7 +108,7 @@ resource "azurerm_route_table" "rt" {
   count               = var.enable_route_table ? 1 : 0
   name                = var.route_table_name == null ? format("%s-route-table", var.environment_name) : format("%s-%s-route-table", var.environment_name, var.route_table_name)
   location            = var.location
-  resource_group_name = azurerm_resource_group.default.id
+  resource_group_name = join("", azurerm_resource_group.default[*].name)
   # bgp_route_propagation_enabled = var.bgp_route_propagation_enabled
   tags = merge(var.default_tags, var.tags)
 
