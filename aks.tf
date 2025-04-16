@@ -94,7 +94,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   default_node_pool {
-    name                = local.default_node_pool.name
+    name                = try(local.default_node_pool.name,"defult")
     node_count          = local.default_node_pool.count
     vm_size             = local.default_node_pool.vm_size
     enable_auto_scaling = local.default_node_pool.enable_auto_scaling
@@ -104,7 +104,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     os_disk_type        = local.default_node_pool.os_disk_type
     os_disk_size_gb     = local.default_node_pool.os_disk_size_gb
     type                = local.default_node_pool.type
-    vnet_subnet_id      = local.default_node_pool.vnet_subnet_id
+    vnet_subnet_id      = length(azurerm_subnet.subnet) > 0 ? azurerm_subnet.subnet[0].id : null
   }
 
   identity {
@@ -150,7 +150,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
   os_type               = local.nodes_pools[count.index].os_type
   os_disk_type          = local.nodes_pools[count.index].os_disk_type
   os_disk_size_gb       = local.nodes_pools[count.index].os_disk_size_gb
-  vnet_subnet_id        = local.nodes_pools[count.index].vnet_subnet_id
+  vnet_subnet_id        = length(azurerm_subnet.subnet) > 0 ? azurerm_subnet.subnet[0].id : null
   enable_auto_scaling   = local.nodes_pools[count.index].enable_auto_scaling
   node_count            = local.nodes_pools[count.index].count
   min_count             = local.nodes_pools[count.index].min_count
