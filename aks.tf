@@ -68,7 +68,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   depends_on = [azurerm_role_assignment.aks_uai_private_dns_zone_contributor]
-  tags       = {}
+  tags       = merge(var.default_tags, merge(var.default_tags, var.tags))
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
@@ -90,9 +90,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
   orchestrator_version   = each.value.orchestrator_version
   node_taints            = each.value.node_taints
   host_group_id          = each.value.host_group_id
-#  capacity_reservation_group_id = var.capacity_reservation_group_id
-#  workload_runtime              = var.workload_runtime
-#  zones                         = var.agents_availability_zones
 }
 
 

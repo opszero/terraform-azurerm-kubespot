@@ -307,7 +307,7 @@ variable "network_policy" {
 
 variable "acr_enabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "The enable and disable the acr access for aks"
 }
 
