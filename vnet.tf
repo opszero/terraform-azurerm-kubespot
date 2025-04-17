@@ -1,5 +1,5 @@
 resource "azurerm_virtual_network" "default" {
-  count                   = var.enable == true ? 1 : 0
+  count               = var.enable == true ? 1 : 0
   name                = "${var.environment_name}-vnet"
   location            = var.location
   resource_group_name = join("", azurerm_resource_group.default[*].name)
@@ -32,7 +32,7 @@ resource "azurerm_virtual_network" "default" {
 
 # Optional DDOS plan resource
 resource "azurerm_network_ddos_protection_plan" "main" {
-  count               = var.enable_ddos_pp && var.existing_ddos_pp  == null ? 1 : 0
+  count               = var.enable_ddos_pp && var.existing_ddos_pp == null ? 1 : 0
   name                = "${var.environment_name}-ddos-plan"
   location            = var.location
   resource_group_name = join("", azurerm_resource_group.default[*].name)
@@ -49,7 +49,7 @@ resource "azurerm_subnet" "subnet" {
   name                        = var.specific_name_subnet == false ? "${var.environment_name}-${element(var.subnet_names, count.index)}" : var.specific_subnet_names[0]
   resource_group_name         = join("", azurerm_resource_group.default[*].name)
   address_prefixes            = [var.subnet_prefixes[count.index]]
-  virtual_network_name        = join("",azurerm_virtual_network.default.*.name)
+  virtual_network_name        = azurerm_virtual_network.default[0].name
   service_endpoints           = var.service_endpoints
   service_endpoint_policy_ids = var.service_endpoint_policy_ids
   # private_link_service_network_policies_enabled = var.subnet_enforce_private_link_service_network_policies

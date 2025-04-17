@@ -108,14 +108,6 @@ variable "resource_group_name" {
 }
 
 
-variable "enforcement" {
-  description = "Enable encryption enforcement on the virtual network"
-  type        = string
-  default     = null
-}
-
-
-
 # Specific subnet names if needed
 variable "specific_name_subnet" {
   type    = bool
@@ -149,24 +141,6 @@ variable "service_endpoints" {
 variable "service_endpoint_policy_ids" {
   type    = list(string)
   default = null
-}
-
-# Private Link Service Network Policies for subnet
-variable "subnet_enforce_private_link_service_network_policies" {
-  type    = bool
-  default = false
-}
-
-# Private Endpoint Network Policies for subnet
-variable "private_endpoint_network_policies" {
-  type    = list(string)
-  default = []
-}
-
-# Default outbound access enabled for subnet
-variable "default_outbound_access_enabled" {
-  type    = bool
-  default = true
 }
 
 # Delegation of subnet resources
@@ -242,19 +216,7 @@ variable "routes" {
   default = []
 }
 
-# Flag for BGP route propagation
-variable "bgp_route_propagation_enabled" {
-  type    = bool
-  default = false
-}
 
-
-##AKS
-variable "name" {
-  type        = string
-  default     = ""
-  description = "Name  (e.g. `app` or `cluster`)."
-}
 
 variable "kubernetes_version" {
   type        = string
@@ -359,16 +321,6 @@ variable "key_vault_id" {
   type        = string
   default     = ""
   description = "Specifies the URL to a Key Vault Key (either from a Key Vault Key, or the Key URL for the Key Vault Secret"
-}
-
-variable "role_based_access_control" {
-  type = list(object({
-    managed                = bool
-    tenant_id              = string
-    admin_group_object_ids = list(string)
-    azure_rbac_enabled     = bool
-  }))
-  default = null
 }
 
 # Diagnosis Settings Enable
@@ -543,3 +495,88 @@ variable "cmk_enabled" {
 #   default     = ""
 #   description = "The Password associated with the administrator_login for the PostgreSQL/MariaDB Server"
 # }
+
+
+
+variable "default_node_pool" {
+  description = "Default node pool configuration"
+  type = object({
+    name                   = string
+    vm_size                = string
+    os_disk_type           = string
+    os_disk_size_gb        = number
+    auto_scaling_enabled   = bool
+    node_public_ip_enabled = bool
+    count                  = number
+    min_count              = number
+    max_count              = number
+    max_pods               = number
+    type                   = string
+  })
+}
+
+variable "nodes_pools" {
+  description = "List of additional node pools"
+  type = list(object({
+    name                          = string
+    vm_size                       = string
+    os_type                       = string
+    os_disk_type                  = string
+    os_disk_size_gb               = number
+    auto_scaling_enabled          = bool
+    node_count                    = number
+    min_count                     = number
+    max_count                     = number
+    max_pods                      = number
+    node_public_ip_enabled        = bool
+    mode                          = string
+    orchestrator_version          = string
+    node_taints                   = list(string)
+    host_group_id                 = string
+#    capacity_reservation_group_id = string
+#    workload_runtime              = string
+#    zones                         = list(string)
+  }))
+  default = []
+}
+
+variable "edge_zone" {
+  type        = string
+  default     = null
+  description = "Specifies the Edge Zone within the Azure Region where this Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created."
+}
+
+variable "image_cleaner_enabled" {
+  type        = bool
+  default     = false
+  description = "(Optional) Specifies whether Image Cleaner is enabled."
+}
+
+variable "image_cleaner_interval_hours" {
+  type        = number
+  default     = 48
+  description = "(Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`."
+}
+
+variable "role_based_access_control_enabled" {
+  type        = bool
+  default     = true
+  description = "Whether role based acces control should be enabled or not"
+}
+
+variable "local_account_disabled" {
+  type        = bool
+  default     = false
+  description = "Whether local account should be disable or not"
+}
+
+variable "cluster_name" {
+  type    = string
+  default = "aks"
+}
+
+variable "prefix" {
+  type        = string
+  default     = ""
+  description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+}

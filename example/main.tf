@@ -1,12 +1,8 @@
-provider "azurerm" {
-  features {}
-  subscription_id = ""
-}
-
-#######################################################AKS###################################################
 module "AKS" {
   source           = "./../"
   environment_name = "prod"
+  cluster_name     = "aks"
+  prefix           = "aks-prod-eastus"
   location         = "East US"
   address_spaces   = ["10.0.0.0/1"]
   #subnet
@@ -22,6 +18,58 @@ module "AKS" {
       address_prefix         = "0.0.0.0/0"
       next_hop_type          = "Internet"
       next_hop_in_ip_address = null
+    }
+  ]
+
+  default_node_pool = {
+    name                   = "defaultnp"
+    vm_size                = "Standard_DS2_v2"
+    os_disk_type           = "Managed"
+    os_disk_size_gb        = 30
+    auto_scaling_enabled   = true
+    node_public_ip_enabled = false
+    count                  = 1
+    min_count              = 1
+    max_count              = 3
+    max_pods               = 110
+    type                   = "VirtualMachineScaleSets"
+  }
+
+  nodes_pools = [
+    {
+      name            = "np1"
+      vm_size         = "Standard_DS2_v2"
+      os_type         = "Linux"
+      os_disk_type    = "Managed"
+      os_disk_size_gb = 30
+
+      auto_scaling_enabled          = true
+      node_count                    = 5
+      min_count                     = 5
+      max_count                     = 6
+      max_pods                      = 110
+      node_public_ip_enabled        = false
+      mode                          = "User"
+      orchestrator_version          = "1.28.3"
+      node_taints                   = []
+      host_group_id                 = null
+    },
+    {
+      name                          = "np2"
+      vm_size                       = "Standard_DS2_v2"
+      os_type                       = "Linux"
+      os_disk_type                  = "Managed"
+      os_disk_size_gb               = 30
+      auto_scaling_enabled          = false
+      node_count                    = 1
+      min_count                     = 1
+      max_count                     = 2
+      max_pods                      = 110
+      node_public_ip_enabled        = false
+      mode                          = "User"
+      orchestrator_version          = "1.28.3"
+      node_taints                   = []
+      host_group_id                 = null
     }
   ]
 }
