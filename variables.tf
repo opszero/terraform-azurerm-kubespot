@@ -81,7 +81,7 @@ variable "dns_servers" {
 variable "enable_ddos_pp" {
   description = "Enable creation of a new DDoS protection plan"
   type        = bool
-  default     = true
+  default     = false
 }
 variable "enable" {
   description = "Enable creation of a new DDoS protection plan"

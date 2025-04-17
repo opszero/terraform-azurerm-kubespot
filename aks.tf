@@ -10,7 +10,7 @@ locals {
 
 resource "azurerm_kubernetes_cluster" "aks" {
   count                             = var.enabled ? 1 : 0
-  name                              = var.cluster_name
+  name                              = "$(var.environment_name)-aks"
   location                          = azurerm_resource_group.default[0].location
   resource_group_name               = azurerm_resource_group.default[0].name
   dns_prefix                        = var.prefix
