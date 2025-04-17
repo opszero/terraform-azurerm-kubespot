@@ -232,7 +232,7 @@ variable "aks_sku_tier" {
 
 variable "private_cluster_enabled" {
   type        = bool
-  default     = true
+  default     = false
   description = "Configure AKS as a Private Cluster : https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#private_cluster_enabled"
 }
 
