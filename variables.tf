@@ -242,30 +242,6 @@ variable "name" {
   description = "Name  (e.g. `app` or `cluster`)."
 }
 
-variable "repository" {
-  type        = string
-  default     = ""
-  description = "Terraform current module repo"
-}
-
-variable "environment" {
-  type        = string
-  default     = ""
-  description = "Environment (e.g. `prod`, `dev`, `staging`)."
-}
-
-variable "label_order" {
-  type        = list(any)
-  default     = ["name", "environment"]
-  description = "Label order, e.g. `name`,`application`."
-}
-
-variable "managedby" {
-  type        = string
-  default     = ""
-  description = "ManagedBy, eg 'opsstation'."
-}
-
 variable "kubernetes_version" {
   type        = string
   default     = "1.32.2"
@@ -293,44 +269,10 @@ variable "node_resource_group" {
 variable "private_dns_zone_type" {
   type        = string
   default     = "System"
-  description = <<EOD
-Set AKS private dns zone if needed and if private cluster is enabled (privatelink.<region>.azmk8s.io)
-- "Custom" : You will have to deploy a private Dns Zone on your own and pass the id with <private_dns_zone_id> variable
-If this settings is used, aks user assigned identity will be "userassigned" instead of "systemassigned"
-and the aks user must have "Private DNS Zone Contributor" role on the private DNS Zone
-- "System" : AKS will manage the private zone and create it in the same resource group as the Node Resource Group
-- "None" : In case of None you will need to bring your own DNS server and set up resolving, otherwise cluster will have issues after provisioning.
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#private_dns_zone_id
-EOD
+  description = ""
 }
 
-variable "default_node_pool" {
-  description = <<EOD
-Default node pool configuration:
-```
-map(object({
-    name                  = string
-    count                 = number
-    vm_size               = string
-    os_type               = string
-    availability_zones    = list(number)
-    enable_auto_scaling   = bool
-    min_count             = number
-    max_count             = number
-    type                  = string
-    node_taints           = list(string)
-    vnet_subnet_id        = string
-    max_pods              = number
-    os_disk_type          = string
-    os_disk_size_gb       = number
-    enable_node_public_ip = bool
-}))
-```
-EOD
 
-  type    = map(any)
-  default = {}
-}
 
 variable "private_dns_zone_id" {
   type        = string
@@ -360,23 +302,6 @@ variable "outbound_type" {
   description = "The outbound (egress) routing method which should be used for this Kubernetes Cluster. Possible values are `loadBalancer` and `userDefinedRouting`."
 }
 
-# variable "nodes_subnet_id" {
-#   type        = string
-#   description = "Id of the subnet used for nodes"
-# }
-
-variable "nodes_pools" {
-  default     = []
-  type        = list(any)
-  description = "A list of nodes pools to create, each item supports same properties as `local.default_agent_profile`"
-
-}
-
-variable "vnet_id" {
-  type        = string
-  default     = null
-  description = "Vnet id that Aks MSI should be network contributor in a private cluster"
-}
 
 variable "enable_http_application_routing" {
   type        = bool
@@ -390,18 +315,7 @@ variable "enable_azure_policy" {
   description = "Enable Azure Policy Addon."
 }
 
-variable "microsoft_defender_enabled" {
-  type        = bool
-  default     = false
-  description = "Enable microsoft_defender_enabled Addon."
-}
 
-
-variable "log_analytics_workspace_id" {
-  type        = string
-  default     = null
-  description = "The ID of log analytics"
-}
 
 variable "network_plugin" {
   type        = string
