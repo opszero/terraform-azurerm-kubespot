@@ -57,7 +57,7 @@ variable "timeouts" {
 
 variable "environment_name" {
   type        = string
-  default     = "demo"
+  default     = ""
   description = "Name of the environment to create resources"
 }
 
@@ -65,16 +65,12 @@ variable "environment_name" {
 
 #vnat
 
-# variable "resource_group_name" {
-#   description = "Name of an existing Resource Group where the VNet will be deployed"
-#   type        = string
-# }
-
 variable "address_spaces" {
   description = "List of address spaces for the VNet"
-  default     = ["10.0.0.0/1"]
+  default     = ["null"]
   type        = list(string)
 }
+
 
 variable "dns_servers" {
   description = "List of DNS servers"
@@ -87,12 +83,30 @@ variable "enable_ddos_pp" {
   type        = bool
   default     = true
 }
+variable "enable" {
+  description = "Enable creation of a new DDoS protection plan"
+  type        = bool
+  default     = true
+}
+
+variable "azurerm_resource_group_enabled" {
+  description = "Enable creation of a new DDoS protection plan"
+  type        = bool
+  default     = true
+}
 
 variable "existing_ddos_pp" {
   description = "Use an existing DDoS protection plan ID"
   type        = string
   default     = null
 }
+
+variable "resource_group_name" {
+  description = "Use an existing DDoS protection plan ID"
+  type        = string
+  default     = ""
+}
+
 
 variable "enforcement" {
   description = "Enable encryption enforcement on the virtual network"
@@ -134,7 +148,7 @@ variable "service_endpoints" {
 # Service Endpoint Policy IDs for subnet
 variable "service_endpoint_policy_ids" {
   type    = list(string)
-  default = []
+  default = null
 }
 
 # Private Link Service Network Policies for subnet
@@ -170,7 +184,7 @@ variable "delegation" {
 # Flag to create NAT Gateway
 variable "create_nat_gateway" {
   type    = bool
-  default = true
+  default = false
 }
 
 # Allocation method for the public IP
@@ -208,7 +222,7 @@ variable "zones" {
 # Flag to enable Route Table
 variable "enable_route_table" {
   type    = bool
-  default = true
+  default = false
 }
 
 # Name of the route table
