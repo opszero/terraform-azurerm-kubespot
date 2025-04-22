@@ -101,16 +101,16 @@ resource "azurerm_role_assignment" "aks_system_identity" {
 }
 
 resource "azurerm_role_assignment" "aks_acr_access_principal_id" {
-  count                = var.enabled && var.acr_enabled ? 1 : 0
+  count                = var.enabled && var.registry_enabled ? 1 : 0
   principal_id         = azurerm_kubernetes_cluster.aks[0].identity[0].principal_id
-  scope                = var.acr_id
+  scope                = azurerm_container_registry.acr[0].id
   role_definition_name = "AcrPull"
 }
 
 resource "azurerm_role_assignment" "aks_acr_access_object_id" {
-  count                = var.enabled && var.acr_enabled ? 1 : 0
+  count                = var.enabled && var.registry_enabled ? 1 : 0
   principal_id         = azurerm_kubernetes_cluster.aks[0].kubelet_identity[0].object_id
-  scope                = var.acr_id
+  scope                = azurerm_container_registry.acr[0].id
   role_definition_name = "AcrPull"
 }
 

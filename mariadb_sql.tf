@@ -1,9 +1,9 @@
 # resource "azurerm_mariadb_server" "default" {
 #   count = var.mariadb_sql_enabled ? 1 : 0
-#
 #   name                = "${var.environment_name}-mariadb"
-#   location            = azurerm_resource_group.cluster.location
-#   resource_group_name = azurerm_resource_group.cluster.name
+#   resource_group_name = azurerm_resource_group.default[count.index].name
+#   location            = azurerm_resource_group.default[count.index].location
+#
 #
 #   sku_name   = var.sql_sku_name
 #   storage_mb = var.sql_storage_in_mb
@@ -20,18 +20,17 @@
 #
 # resource "azurerm_mariadb_virtual_network_rule" "default" {
 #   count = var.mariadb_sql_enabled ? 1 : 0
-#
 #   name                = var.environment_name
-#   resource_group_name = azurerm_resource_group.cluster.name
+#   resource_group_name = azurerm_resource_group.default[count.index].name
 #   server_name         = azurerm_mariadb_server.default[count.index].name
-#   subnet_id           = azurerm_subnet.cluster.id
+#   subnet_id           = azurerm_subnet.subnet[count.index].id
 # }
 #
 # resource "azurerm_mariadb_database" "default" {
 #   count = var.mariadb_sql_enabled ? 1 : 0
 #
 #   name                = var.environment_name
-#   resource_group_name = azurerm_resource_group.cluster.name
+#   resource_group_name = azurerm_resource_group.default[count.index].name
 #   server_name         = azurerm_mariadb_server.default[count.index].name
 #   charset             = "utf8"
 #   collation           = "utf8_general_ci"
