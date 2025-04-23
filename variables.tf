@@ -305,11 +305,6 @@ variable "network_policy" {
   description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
 }
 
-#variable "acr_enabled" {
-#  type        = bool
-#  default     = true
-#  description = "The enable and disable the acr access for aks"
-#}
 
 variable "acr_id" {
   type        = string
