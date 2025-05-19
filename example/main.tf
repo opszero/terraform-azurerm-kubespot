@@ -14,11 +14,11 @@ module "AKS" {
   cluster_name     = "aks"
   prefix           = "aks-prod-eastus"
   location         = "East US"
-  address_spaces   = ["10.0.0.0/1"]
+  address_spaces   = ["10.0.0.0/16"]
   #subnet
   create_nat_gateway = true
   subnet_names       = ["subnet"]
-  subnet_prefixes    = ["10.10.0.0/20"]
+  subnet_prefixes    = ["10.0.1.0/24"]
   # route_table
   enable_route_table = true
   #   route_table_name   = "prod"
@@ -37,10 +37,10 @@ module "AKS" {
 
   default_node_pool = {
     name                   = "defaultnp"
-    vm_size                = "Standard_DS2_v2"
+    vm_size                = "Standard_B4ms"
     os_disk_type           = "Managed"
     os_disk_size_gb        = 30
-    auto_scaling_enabled   = false
+    auto_scaling_enabled   = true
     node_public_ip_enabled = false
     count                  = 1
     min_count              = 1

@@ -41,6 +41,26 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type                   = var.default_node_pool.type
     vnet_subnet_id         = azurerm_subnet.subnet[0].id
     node_public_ip_enabled = var.default_node_pool.node_public_ip_enabled
+
+    dynamic "upgrade_settings" {
+      for_each = var.upgrade_settings_enabled ? [var.upgrade_settings_values] : []
+
+      content {
+        max_surge                     = upgrade_settings.value.max_surge
+        drain_timeout_in_minutes      = upgrade_settings.value.drain_timeout_in_minutes
+        node_soak_duration_in_minutes = upgrade_settings.value.node_soak_duration_in_minutes
+      }
+    }
+  }
+
+
+  dynamic "oms_agent" {
+    for_each = var.oms_agent_enabled ? ["oms_agent"] : []
+
+    content {
+      log_analytics_workspace_id      = azurerm_log_analytics_workspace.main[0].id
+      msi_auth_for_monitoring_enabled = var.msi_auth_for_monitoring_enabled
+    }
   }
 
 

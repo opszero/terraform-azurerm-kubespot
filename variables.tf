@@ -268,7 +268,7 @@ variable "linux_profile" {
 
 variable "service_cidr" {
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.1.0.0/16"
   description = "CIDR used by kubernetes services (kubectl get svc)."
 }
 
@@ -579,4 +579,73 @@ variable "prefix" {
   type        = string
   default     = ""
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+}
+
+variable "create_log_analytics_workspace" {
+  type        = bool
+  default     = true
+  description = "The Flag for Module Enable or Disabled if it will false it will take `existing_log_analytics_workspace`."
+}
+
+variable "log_analytics_workspace_sku" {
+  type        = string
+  default     = "PerGB2018"
+  description = "pecifies the Sku of the Log Analytics Workspace. Possible values are Free, PerNode, Premium, Standard, Standalone, Unlimited, CapacityReservation, and PerGB2018 (new Sku as of 2018-04-03). Defaults to PerGB2018"
+
+}
+
+variable "retention_in_days" {
+  type        = number
+  default     = null
+  description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
+}
+
+variable "daily_quota_gb" {
+  type        = string
+  default     = "-1"
+  description = "The workspace daily quota for ingestion in GB. Defaults to -1 (unlimited) if omitted."
+}
+
+variable "internet_ingestion_enabled" {
+  type        = bool
+  default     = true
+  description = "Should the Log Analytics Workspace support ingestion over the Public Internet? Defaults to true."
+}
+
+variable "internet_query_enabled" {
+  type        = bool
+  default     = true
+  description = "Should the Log Analytics Workspace support querying over the Public Internet? Defaults to true."
+}
+
+variable "oms_agent_enabled" {
+  type        = bool
+  default     = true
+  description = "Enable log_analytics_workspace_enabled(oms agent) Addon."
+}
+
+variable "msi_auth_for_monitoring_enabled" {
+  type        = bool
+  default     = false
+  description = " Is managed identity authentication for monitoring enabled?"
+}
+
+variable "upgrade_settings_enabled" {
+  description = "Enable or disable the upgrade settings block"
+  type        = bool
+  default     = true
+}
+
+variable "upgrade_settings_values" {
+  description = "Values for upgrade settings"
+  type = object({
+    max_surge                     = string
+    drain_timeout_in_minutes      = number
+    node_soak_duration_in_minutes = number
+  })
+  default = {
+    max_surge                     = "10%"
+    drain_timeout_in_minutes      = 0
+    node_soak_duration_in_minutes = 0
+  }
 }
