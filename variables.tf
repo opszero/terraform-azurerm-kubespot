@@ -268,7 +268,7 @@ variable "linux_profile" {
 
 variable "service_cidr" {
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.1.0.0/16"
   description = "CIDR used by kubernetes services (kubectl get svc)."
 }
 
@@ -579,4 +579,10 @@ variable "prefix" {
   type        = string
   default     = ""
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
+}
+
+variable "nat_ip_count" {
+  type        = number
+  default     = 2
+  description = "Number of public IP addresses to associate with the Azure NAT Gateway. These IPs will be used for outbound internet traffic from private subnets."
 }
