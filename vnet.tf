@@ -72,8 +72,8 @@ resource "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  count               = var.create_nat_gateway ? 1 : 0
-  name                = format("%s-nat-gateway-ip", var.environment_name)
+  count               = var.create_nat_gateway ? var.nat_ip_count : 0
+  name                = format("%s-nat-ip-%d", var.environment_name, count.index)
   allocation_method   = var.allocation_method
   location            = var.location
   resource_group_name = join("", azurerm_resource_group.default[*].name)
@@ -93,9 +93,9 @@ resource "azurerm_nat_gateway" "natgw" {
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "pip_assoc" {
-  count                = var.create_nat_gateway ? 1 : 0
+  count                = var.create_nat_gateway ? var.nat_ip_count : 0
   nat_gateway_id       = azurerm_nat_gateway.natgw[0].id
-  public_ip_address_id = azurerm_public_ip.pip[0].id
+  public_ip_address_id = azurerm_public_ip.pip[count.index].id
 }
 
 resource "azurerm_subnet_nat_gateway_association" "subnet_assoc" {
