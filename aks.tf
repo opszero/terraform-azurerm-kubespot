@@ -41,6 +41,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type                   = var.default_node_pool.type
     vnet_subnet_id         = azurerm_subnet.subnet[0].id
     node_public_ip_enabled = var.default_node_pool.node_public_ip_enabled
+
+    dynamic "upgrade_settings" {
+      for_each = var.enable_upgrade_settings ? [1] : []
+      content {
+        drain_timeout_in_minutes      = var.drain_timeout_in_minutes
+        node_soak_duration_in_minutes = var.node_soak_duration_in_minutes
+        max_surge                     = var.max_surge
+      }
+    }
   }
 
 
@@ -65,6 +74,34 @@ resource "azurerm_kubernetes_cluster" "aks" {
       msi_auth_for_monitoring_enabled = var.msi_auth_for_monitoring_enabled
     }
   }
+
+  dynamic "key_vault_secrets_provider" {
+    for_each = var.enable_secret_provider ? [1] : []
+
+    content {
+      secret_rotation_enabled = true
+      secret_rotation_interval = "2m"
+
+      dynamic "secret_identity" {
+        for_each = azurerm_user_assigned_identity.aks_user_assigned_identity
+        content {
+          client_id                 = secret_identity.value.client_id
+          object_id                 = secret_identity.value.principal_id
+          user_assigned_identity_id = secret_identity.value.id
+        }
+      }
+    }
+  }
+
+  dynamic "monitor_metrics" {
+    for_each = var.enable_monitor_metrics ? [1] : []
+    content {
+      annotations_allowed = var.annotations_allowed
+      labels_allowed      = var.labels_allowed
+    }
+  }
+
+
 
   network_profile {
     network_plugin    = var.network_plugin

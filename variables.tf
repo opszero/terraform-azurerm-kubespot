@@ -602,5 +602,47 @@ variable "msi_auth_for_monitoring_enabled" {
 variable "acr_admin_enabled" {
   description = "Enable admin access for Azure Container Registry"
   type        = bool
-  default     = true
+  default     = false
 }
+
+variable "enable_secret_provider" {
+  description = "Enable or disable the Key Vault Secrets Provider integration"
+  type        = bool
+  default     = false
+}
+
+variable "enable_monitor_metrics" {
+  type    = bool
+  default = false
+}
+
+variable "annotations_allowed" {
+  type    = string
+  default = "example.com/track,example.com/debug"
+}
+
+variable "labels_allowed" {
+  type    = string
+  default = "app,component,environment"
+}
+
+variable "enable_upgrade_settings" {
+  type    = bool
+  default = true
+}
+
+variable "drain_timeout_in_minutes" {
+  type    = number
+  default = 0
+}
+
+variable "node_soak_duration_in_minutes" {
+  type    = number
+  default = 0
+}
+
+variable "max_surge" {
+  type    = string
+  default = "10%"
+}
+
