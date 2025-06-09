@@ -58,6 +58,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
+  dynamic "oms_agent" {
+    for_each = var.enable_monitoring ? [1] : []
+    content {
+      log_analytics_workspace_id      = var.log_analytics_workspace_id
+      msi_auth_for_monitoring_enabled = var.msi_auth_for_monitoring_enabled
+    }
+  }
+
   network_profile {
     network_plugin    = var.network_plugin
     network_policy    = var.network_policy

@@ -580,3 +580,27 @@ variable "prefix" {
   default     = ""
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
+
+variable "enable_monitoring" {
+  description = "Enable OMS Agent for AKS monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics Workspace ID"
+  type        = string
+  default     = ""
+}
+
+variable "msi_auth_for_monitoring_enabled" {
+  description = "Enable MSI auth for monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "acr_admin_enabled" {
+  description = "Enable admin access for Azure Container Registry"
+  type        = bool
+  default     = true
+}
