@@ -97,6 +97,7 @@ terraform destroy -auto-approve
 | <a name="input_mariadb_sql_enabled"></a> [mariadb\_sql\_enabled](#input\_mariadb\_sql\_enabled) | Specify whether the mariadb is enabled | `bool` | `true` | no |
 | <a name="input_mariadb_sql_version"></a> [mariadb\_sql\_version](#input\_mariadb\_sql\_version) | Specify the version of MariaDB to use. Possible values are 10.2 and 10.3 | `string` | `"10.2"` | no |
 | <a name="input_nat_gateway_idle_timeout"></a> [nat\_gateway\_idle\_timeout](#input\_nat\_gateway\_idle\_timeout) | Timeout in minutes for idle NAT Gateway | `number` | `4` | no |
+| <a name="input_nat_ip_count"></a> [nat\_ip\_count](#input\_nat\_ip\_count) | Number of public IP addresses to associate with the Azure NAT Gateway. These IPs will be used for outbound internet traffic from private subnets. | `number` | `2` | no |
 | <a name="input_network_plugin"></a> [network\_plugin](#input\_network\_plugin) | Network plugin to use for networking. | `string` | `"azure"` | no |
 | <a name="input_network_policy"></a> [network\_policy](#input\_network\_policy) | (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_node_resource_group"></a> [node\_resource\_group](#input\_node\_resource\_group) | Name of the resource group in which to put AKS nodes. If null default to MC\_<AKS RG Name> | `string` | `null` | no |
@@ -123,7 +124,7 @@ terraform destroy -auto-approve
 | <a name="input_role_based_access_control_enabled"></a> [role\_based\_access\_control\_enabled](#input\_role\_based\_access\_control\_enabled) | Whether role based acces control should be enabled or not | `bool` | `true` | no |
 | <a name="input_route_table_name"></a> [route\_table\_name](#input\_route\_table\_name) | Name of the route table | `string` | `null` | no |
 | <a name="input_routes"></a> [routes](#input\_routes) | Routes to be added to the route table | <pre>list(object({<br/>    name                   = string<br/>    address_prefix         = string<br/>    next_hop_type          = string<br/>    next_hop_in_ip_address = string<br/>  }))</pre> | `[]` | no |
-| <a name="input_service_cidr"></a> [service\_cidr](#input\_service\_cidr) | CIDR used by kubernetes services (kubectl get svc). | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_service_cidr"></a> [service\_cidr](#input\_service\_cidr) | CIDR used by kubernetes services (kubectl get svc). | `string` | `"10.1.0.0/16"` | no |
 | <a name="input_service_endpoint_policy_ids"></a> [service\_endpoint\_policy\_ids](#input\_service\_endpoint\_policy\_ids) | Service Endpoint Policy IDs for subnet | `list(string)` | `null` | no |
 | <a name="input_service_endpoints"></a> [service\_endpoints](#input\_service\_endpoints) | Service Endpoints for subnet | `list(string)` | `[]` | no |
 | <a name="input_sku"></a> [sku](#input\_sku) | SKU for the Public IP | `string` | `"Standard"` | no |
