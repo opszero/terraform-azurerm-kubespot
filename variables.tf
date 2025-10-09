@@ -646,3 +646,8 @@ variable "max_surge" {
   default = "10%"
 }
 
+variable "nat_ip_count" {
+  type        = number
+  default     = 2
+  description = "Number of public IP addresses to associate with the Azure NAT Gateway. These IPs will be used for outbound internet traffic from private subnets."
+}

@@ -79,7 +79,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     for_each = var.enable_secret_provider ? [1] : []
 
     content {
-      secret_rotation_enabled = true
+      secret_rotation_enabled  = true
       secret_rotation_interval = "2m"
 
       dynamic "secret_identity" {
