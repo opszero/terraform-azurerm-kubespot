@@ -57,17 +57,19 @@ terraform destroy -auto-approve
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.42.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_acr_admin_enabled"></a> [acr\_admin\_enabled](#input\_acr\_admin\_enabled) | Enable admin access for Azure Container Registry | `bool` | `false` | no |
 | <a name="input_acr_id"></a> [acr\_id](#input\_acr\_id) | azure container resource id to provide access for aks | `string` | `""` | no |
 | <a name="input_ad_group_ids"></a> [ad\_group\_ids](#input\_ad\_group\_ids) | ActiveDirectory Groups that have access to this cluster | `list` | `[]` | no |
 | <a name="input_ad_user_ids"></a> [ad\_user\_ids](#input\_ad\_user\_ids) | ActiveDirectory users that have access to the kubernetes admin group and attached to the cluster | `list` | `[]` | no |
 | <a name="input_address_spaces"></a> [address\_spaces](#input\_address\_spaces) | List of address spaces for the VNet | `list(string)` | <pre>[<br/>  "null"<br/>]</pre> | no |
 | <a name="input_aks_sku_tier"></a> [aks\_sku\_tier](#input\_aks\_sku\_tier) | aks sku tier. Possible values are Free ou Paid | `string` | `"Free"` | no |
 | <a name="input_allocation_method"></a> [allocation\_method](#input\_allocation\_method) | Allocation method for the public IP | `string` | `"Static"` | no |
+| <a name="input_annotations_allowed"></a> [annotations\_allowed](#input\_annotations\_allowed) | n/a | `string` | `"example.com/track,example.com/debug"` | no |
 | <a name="input_azurerm_resource_group_enabled"></a> [azurerm\_resource\_group\_enabled](#input\_azurerm\_resource\_group\_enabled) | Enable creation of a new DDoS protection plan | `bool` | `true` | no |
 | <a name="input_cidr"></a> [cidr](#input\_cidr) | The address space that is used the virtual network | `string` | `"10.0.0.0"` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `string` | `"aks"` | no |
@@ -77,12 +79,17 @@ terraform destroy -auto-approve
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Base tags applied to all resources | `map(string)` | <pre>{<br/>  "ManagedBy": "OpsZero",<br/>  "Repositories": "https://github.com/opszero/terraform-azurerm-kubespot"<br/>}</pre> | no |
 | <a name="input_delegation"></a> [delegation](#input\_delegation) | Delegation of subnet resources | <pre>map(list(object({<br/>    name = string<br/>    service_delegation = list(object({<br/>      name    = string<br/>      actions = list(string)<br/>    }))<br/>  })))</pre> | `{}` | no |
 | <a name="input_dns_servers"></a> [dns\_servers](#input\_dns\_servers) | List of DNS servers | `list(string)` | `[]` | no |
+| <a name="input_drain_timeout_in_minutes"></a> [drain\_timeout\_in\_minutes](#input\_drain\_timeout\_in\_minutes) | n/a | `number` | `0` | no |
 | <a name="input_edge_zone"></a> [edge\_zone](#input\_edge\_zone) | Specifies the Edge Zone within the Azure Region where this Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_enable"></a> [enable](#input\_enable) | Enable creation of a new DDoS protection plan | `bool` | `true` | no |
 | <a name="input_enable_azure_policy"></a> [enable\_azure\_policy](#input\_enable\_azure\_policy) | Enable Azure Policy Addon. | `bool` | `true` | no |
 | <a name="input_enable_ddos_pp"></a> [enable\_ddos\_pp](#input\_enable\_ddos\_pp) | Enable creation of a new DDoS protection plan | `bool` | `false` | no |
 | <a name="input_enable_http_application_routing"></a> [enable\_http\_application\_routing](#input\_enable\_http\_application\_routing) | Enable HTTP Application Routing Addon (forces recreation). | `bool` | `false` | no |
+| <a name="input_enable_monitor_metrics"></a> [enable\_monitor\_metrics](#input\_enable\_monitor\_metrics) | n/a | `bool` | `false` | no |
+| <a name="input_enable_monitoring"></a> [enable\_monitoring](#input\_enable\_monitoring) | Enable OMS Agent for AKS monitoring | `bool` | `false` | no |
 | <a name="input_enable_route_table"></a> [enable\_route\_table](#input\_enable\_route\_table) | Flag to enable Route Table | `bool` | `false` | no |
+| <a name="input_enable_secret_provider"></a> [enable\_secret\_provider](#input\_enable\_secret\_provider) | Enable or disable the Key Vault Secrets Provider integration | `bool` | `false` | no |
+| <a name="input_enable_upgrade_settings"></a> [enable\_upgrade\_settings](#input\_enable\_upgrade\_settings) | n/a | `bool` | `true` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Enable resource group creation and related resources. | `bool` | `true` | no |
 | <a name="input_environment_name"></a> [environment\_name](#input\_environment\_name) | Name of the environment to create resources | `string` | `""` | no |
 | <a name="input_existing_ddos_pp"></a> [existing\_ddos\_pp](#input\_existing\_ddos\_pp) | Use an existing DDoS protection plan ID | `string` | `null` | no |
@@ -90,17 +97,22 @@ terraform destroy -auto-approve
 | <a name="input_image_cleaner_interval_hours"></a> [image\_cleaner\_interval\_hours](#input\_image\_cleaner\_interval\_hours) | (Optional) Specifies the interval in hours when images should be cleaned up. Defaults to `48`. | `number` | `48` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Specifies the URL to a Key Vault Key (either from a Key Vault Key, or the Key URL for the Key Vault Secret | `string` | `""` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | Version of Kubernetes to deploy | `string` | `"1.32.2"` | no |
+| <a name="input_labels_allowed"></a> [labels\_allowed](#input\_labels\_allowed) | n/a | `string` | `"app,component,environment"` | no |
 | <a name="input_linux_profile"></a> [linux\_profile](#input\_linux\_profile) | Username and ssh key for accessing AKS Linux nodes with ssh. | <pre>object({<br/>    username = string,<br/>    ssh_key  = string<br/>  })</pre> | `null` | no |
 | <a name="input_local_account_disabled"></a> [local\_account\_disabled](#input\_local\_account\_disabled) | Whether local account should be disable or not | `bool` | `false` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure region where the resource group will be created. | `string` | `"East US"` | no |
 | <a name="input_lock_level"></a> [lock\_level](#input\_lock\_level) | The level of the lock. Can be 'CanNotDelete' or 'ReadOnly'. | `string` | `"CanNotDelete"` | no |
+| <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id) | Log Analytics Workspace ID | `string` | `""` | no |
 | <a name="input_mariadb_sql_enabled"></a> [mariadb\_sql\_enabled](#input\_mariadb\_sql\_enabled) | Specify whether the mariadb is enabled | `bool` | `true` | no |
 | <a name="input_mariadb_sql_version"></a> [mariadb\_sql\_version](#input\_mariadb\_sql\_version) | Specify the version of MariaDB to use. Possible values are 10.2 and 10.3 | `string` | `"10.2"` | no |
+| <a name="input_max_surge"></a> [max\_surge](#input\_max\_surge) | n/a | `string` | `"10%"` | no |
+| <a name="input_msi_auth_for_monitoring_enabled"></a> [msi\_auth\_for\_monitoring\_enabled](#input\_msi\_auth\_for\_monitoring\_enabled) | Enable MSI auth for monitoring | `bool` | `false` | no |
 | <a name="input_nat_gateway_idle_timeout"></a> [nat\_gateway\_idle\_timeout](#input\_nat\_gateway\_idle\_timeout) | Timeout in minutes for idle NAT Gateway | `number` | `4` | no |
 | <a name="input_nat_ip_count"></a> [nat\_ip\_count](#input\_nat\_ip\_count) | Number of public IP addresses to associate with the Azure NAT Gateway. These IPs will be used for outbound internet traffic from private subnets. | `number` | `2` | no |
 | <a name="input_network_plugin"></a> [network\_plugin](#input\_network\_plugin) | Network plugin to use for networking. | `string` | `"azure"` | no |
 | <a name="input_network_policy"></a> [network\_policy](#input\_network\_policy) | (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created. | `string` | `null` | no |
 | <a name="input_node_resource_group"></a> [node\_resource\_group](#input\_node\_resource\_group) | Name of the resource group in which to put AKS nodes. If null default to MC\_<AKS RG Name> | `string` | `null` | no |
+| <a name="input_node_soak_duration_in_minutes"></a> [node\_soak\_duration\_in\_minutes](#input\_node\_soak\_duration\_in\_minutes) | n/a | `number` | `0` | no |
 | <a name="input_nodes_desired_capacity"></a> [nodes\_desired\_capacity](#input\_nodes\_desired\_capacity) | The number of Amazon EC2 instances that should be running in the group | `number` | `1` | no |
 | <a name="input_nodes_pools"></a> [nodes\_pools](#input\_nodes\_pools) | List of additional node pools | <pre>list(object({<br/>    name                   = string<br/>    vm_size                = string<br/>    os_type                = string<br/>    os_disk_type           = string<br/>    os_disk_size_gb        = number<br/>    auto_scaling_enabled   = bool<br/>    node_count             = number<br/>    min_count              = number<br/>    max_count              = number<br/>    max_pods               = number<br/>    node_public_ip_enabled = bool<br/>    mode                   = string<br/>    orchestrator_version   = string<br/>    node_taints            = list(string)<br/>    host_group_id          = string<br/>    #    capacity_reservation_group_id = string<br/>    #    workload_runtime              = string<br/>    #    zones                         = list(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_notes"></a> [notes](#input\_notes) | Optional notes about the lock. | `string` | `"Resource group lock to prevent accidental deletion"` | no |
