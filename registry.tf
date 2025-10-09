@@ -5,7 +5,7 @@ resource "azurerm_container_registry" "acr" {
   location            = azurerm_resource_group.default[count.index].location
   resource_group_name = azurerm_resource_group.default[count.index].name
   sku                 = "Premium"
-  admin_enabled       = false
+  admin_enabled       = var.acr_admin_enabled
 
   dynamic "georeplications" {
     for_each = [

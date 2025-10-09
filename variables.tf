@@ -581,6 +581,71 @@ variable "prefix" {
   description = "(Optional) The prefix for the resources created in the specified Azure Resource Group. Omitting this variable requires both `var.cluster_log_analytics_workspace_name` and `var.cluster_name` have been set. Only one of `var.prefix,var.dns_prefix_private_cluster` can be specified."
 }
 
+variable "enable_monitoring" {
+  description = "Enable OMS Agent for AKS monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics Workspace ID"
+  type        = string
+  default     = ""
+}
+
+variable "msi_auth_for_monitoring_enabled" {
+  description = "Enable MSI auth for monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "acr_admin_enabled" {
+  description = "Enable admin access for Azure Container Registry"
+  type        = bool
+  default     = false
+}
+
+variable "enable_secret_provider" {
+  description = "Enable or disable the Key Vault Secrets Provider integration"
+  type        = bool
+  default     = false
+}
+
+variable "enable_monitor_metrics" {
+  type    = bool
+  default = false
+}
+
+variable "annotations_allowed" {
+  type    = string
+  default = "example.com/track,example.com/debug"
+}
+
+variable "labels_allowed" {
+  type    = string
+  default = "app,component,environment"
+}
+
+variable "enable_upgrade_settings" {
+  type    = bool
+  default = true
+}
+
+variable "drain_timeout_in_minutes" {
+  type    = number
+  default = 0
+}
+
+variable "node_soak_duration_in_minutes" {
+  type    = number
+  default = 0
+}
+
+variable "max_surge" {
+  type    = string
+  default = "10%"
+}
+
 variable "nat_ip_count" {
   type        = number
   default     = 2
