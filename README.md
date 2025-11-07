@@ -204,11 +204,11 @@ terraform destroy -auto-approve
 | <a name="output_subnet_id"></a> [subnet\_id](#output\_subnet\_id) | n/a |
 | <a name="output_subnet_ids"></a> [subnet\_ids](#output\_subnet\_ids) | The IDs of the created subnets |
 | <a name="output_vnet_id"></a> [vnet\_id](#output\_vnet\_id) | The ID of the created Virtual Network |
-# ðŸš€ Built by opsZero!
+# 🚀 Built by opsZero!
 
 <a href="https://opszero.com"><img src="https://opszero.com/img/common/opsZero-Logo-Large.webp" width="300px"/></a>
 
-[opsZero](https://opszero.com) provides software and consulting for Cloud + AI. With our decade plus of experience scaling some of the worldâ€™s most innovative companies we have developed deep expertise in Kubernetes, DevOps, FinOps, and Compliance.
+[opsZero](https://opszero.com) provides software and consulting for Cloud + AI. With our decade plus of experience scaling some of the world’s most innovative companies we have developed deep expertise in Kubernetes, DevOps, FinOps, and Compliance.
 
 Our software and consulting solutions enable organizations to:
 
