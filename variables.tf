@@ -533,9 +533,9 @@ variable "nodes_pools" {
     orchestrator_version   = string
     node_taints            = list(string)
     host_group_id          = string
+    zones                  = list(string)
     #    capacity_reservation_group_id = string
     #    workload_runtime              = string
-    #    zones                         = list(string)
   }))
   default = []
 }

@@ -135,6 +135,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
   orchestrator_version   = each.value.orchestrator_version
   node_taints            = each.value.node_taints
   host_group_id          = each.value.host_group_id
+  zones                  = each.value.zones
 }
 
 
